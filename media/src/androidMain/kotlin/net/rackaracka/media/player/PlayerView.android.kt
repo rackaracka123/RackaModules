@@ -1,0 +1,39 @@
+package net.rackaracka.media.player
+
+import androidx.annotation.OptIn
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.media3.common.util.UnstableApi
+import net.rackaracka.media.AspectRatio
+import net.rackaracka.media.player.extensions.toResizeMode
+import androidx.media3.ui.PlayerView as AndroidPlayerView
+
+@OptIn(UnstableApi::class)
+@Composable
+actual fun PlayerView(
+    modifier: Modifier,
+    player: Player,
+    aspectRatio: AspectRatio,
+    enableMediaControls: Boolean,
+    releasePlayerOnDispose: Boolean
+) {
+    val androidPlayer = player as? PlayerAndroid ?: return
+
+    DisposableEffect(Unit) {
+        onDispose {
+            if (releasePlayerOnDispose) {
+                player.release()
+            }
+        }
+    }
+
+    AndroidView(factory = {
+        AndroidPlayerView(it).apply {
+            setPlayer(androidPlayer.exoPlayer)
+            resizeMode = aspectRatio.toResizeMode()
+            useController = enableMediaControls
+        }
+    }, modifier = modifier)
+}
