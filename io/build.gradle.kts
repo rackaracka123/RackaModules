@@ -5,31 +5,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.compose)
-    id("maven-publish")
-}
-
-fun readProperties(propertiesFile: File) = Properties().apply {
-    if (!propertiesFile.exists()) propertiesFile.createNewFile()
-    propertiesFile.inputStream().use { fis ->
-        load(fis)
-    }
-}
-
-val githubProperties = readProperties(rootProject.file("github.properties"))
-
-publishing {
-    group = "se.alster.kmp"
-    version = githubProperties.getProperty("version") ?: System.getenv("VERSION")
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = URI("https://maven.pkg.github.com/rackaracka123/KMPModules")
-            credentials {
-                username = githubProperties.getProperty("username") ?: System.getenv("GITHUB_ACTOR")
-                password = githubProperties.getProperty("token")  ?: System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
+    id("module.publication")
 }
 
 kotlin {
@@ -59,9 +35,9 @@ kotlin {
 }
 
 android {
-    namespace = "se.alster.kmp.storage"
-    compileSdk = 34
+    namespace = "net.rackaracka.io"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
-        minSdk = 24
+        minSdk = libs.versions.android.minSdk.get().toInt()
     }
 }

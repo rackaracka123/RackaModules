@@ -7,13 +7,9 @@ plugins {
 
 kotlin {
     targetHierarchy.default()
+    jvmToolchain(17)
     androidTarget {
         publishLibraryVariants("release")
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-        }
     }
     iosX64()
     iosArm64()
