@@ -25,7 +25,7 @@ jobs:
           # Detta krävs (tror jag) men jag har inte tester än.
           # - target: iosSimulatorArm64Test
           #  os: macos-latest
-    runs-on: ${{ matrix.os }}
+    runs-on: macos-latest # ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v3
