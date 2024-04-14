@@ -19,9 +19,9 @@ permissions:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        include:
+    # strategy:
+      # matrix:
+        # include:
           # Detta krävs (tror jag) men jag har inte tester än.
           # - target: iosSimulatorArm64Test
           #  os: macos-latest
