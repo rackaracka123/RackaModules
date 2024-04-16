@@ -2,6 +2,7 @@ package net.rackaracka.media.player
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.UIKitView
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -17,12 +18,14 @@ actual fun PlayerView(
     releasePlayerOnDispose: Boolean
 ) {
     val playerIOS = player as? PlayerIOS ?: return
-    playerIOS.setAspectRatio(aspectRatio)
-    playerIOS.setEnableMediaControls(enableMediaControls)
+    remember {
+        playerIOS.setAspectRatio(aspectRatio)
+        playerIOS.setEnableMediaControls(enableMediaControls)
+    }
 
     DisposableEffect(playerIOS) {
         onDispose {
-            if (releasePlayerOnDispose){
+            if (releasePlayerOnDispose) {
                 playerIOS.release()
             }
         }
