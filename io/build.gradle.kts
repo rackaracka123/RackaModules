@@ -1,11 +1,14 @@
-import java.net.URI
-import java.util.Properties
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.compose)
     id("module.publication")
+    id("maven-publish")
+}
+
+publishing {
+    group = "net.rackaracka"
+    version = "0.0.1"
 }
 
 kotlin {
